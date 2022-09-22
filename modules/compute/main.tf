@@ -23,6 +23,9 @@ resource "azurerm_virtual_machine" "web-vm" {
   resource_group_name = var.resource_group
   network_interface_ids = [ azurerm_network_interface.web-net-interface.id ]
   availability_set_id = azurerm_availability_set.web_availabilty_set.id
+
+  //custom_data = filebase64("customdata-app.tpl")
+
   vm_size = "Standard_D2s_v3"
   delete_os_disk_on_termination = true
   
@@ -77,6 +80,9 @@ resource "azurerm_virtual_machine" "app-vm" {
   resource_group_name = var.resource_group
   network_interface_ids = [ azurerm_network_interface.app-net-interface.id ]
   availability_set_id = azurerm_availability_set.web_availabilty_set.id
+
+  //custom_data = filebase64("customdata-logic.tpl")
+
   vm_size = "Standard_D2s_v3"
   delete_os_disk_on_termination = true
   
@@ -104,4 +110,35 @@ resource "azurerm_virtual_machine" "app-vm" {
     disable_password_authentication = false
   }
 }
+
+# resource "azurerm_linux_virtual_machine" "web-vm" {
+#   name                = "web-vm"
+#   location = var.location
+#   resource_group_name = var.resource_group
+#   network_interface_ids = [ azurerm_network_interface.app-net-interface.id ]
+#   availability_set_id = azurerm_availability_set.web_availabilty_set.id
+#   size                = "Standard_B1s"
+#   admin_username      = "adminuser"
+
+#   custom_data = filebase64("customdata-app.tpl")
+
+#   admin_ssh_key {
+#     username   = "adminuser"
+#     public_key = file("~/.ssh/mtcazurekey.pub")
+#   }
+
+#   os_disk {
+#     caching              = "ReadWrite"
+#     storage_account_type = "Standard_LRS"
+#   }
+
+#   source_image_reference {
+#     publisher = "Canonical"
+#     offer     = "UbuntuServer"
+#     sku       = "18.04-LTS"
+#     version   = "latest"
+#   }
+# }
+  
+  
 
