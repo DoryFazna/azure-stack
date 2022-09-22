@@ -2,6 +2,7 @@ resource "azurerm_availability_set" "web_availabilty_set" {
   name                = "web_availabilty_set"
   location            = var.location
   resource_group_name = var.resource_group
+  platform_fault_domain_count = 2
 }
 
 resource "azurerm_network_interface" "web-net-interface" {
@@ -55,6 +56,7 @@ resource "azurerm_virtual_machine" "web-vm" {
   name                = "app_availabilty_set"
   location            = var.location
   resource_group_name = var.resource_group
+  platform_fault_domain_count = 2
  }
 
 resource "azurerm_network_interface" "app-net-interface" {

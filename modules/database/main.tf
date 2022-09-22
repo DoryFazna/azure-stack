@@ -1,4 +1,4 @@
-resource "azurerm_sql_server" "primary" {
+resource "azurerm_mssql_server" "primary" {
     name = var.primary_database
     resource_group_name = var.resource_group
     location = var.location
@@ -7,10 +7,11 @@ resource "azurerm_sql_server" "primary" {
     administrator_login_password = var.primary_database_password
 }
 
-resource "azurerm_sql_database" "db" {
+resource "azurerm_mssql_database" "db" {
   name                = "db"
-  resource_group_name = var.resource_group
-  location            = var.location
-  server_name         = azurerm_sql_server.primary.name
+  //resource_group_name = var.resource_group
+  //location            = var.location
+  //server_name         = azurerm_mssql_server.primary.name
+  server_id = azurerm_mssql_server.primary.id
 }
 
