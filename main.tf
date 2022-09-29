@@ -16,6 +16,8 @@ module "networking" {
   websubnetcidr  = var.websubnetcidr
   appsubnetcidr  = var.appsubnetcidr
   dbsubnetcidr   = var.dbsubnetcidr
+  primary_database = var.primary_database
+
 }
 
 module "securitygroup" {
@@ -35,7 +37,7 @@ module "database" {
   primary_database_version  = var.primary_database_version
   primary_database_admin    = var.primary_database_admin
   primary_database_password = var.primary_database_password
-  app_subnet_id  = module.networking.appsubnet_id
+  db_subnet_id  = module.networking.dbsubnet_id
 
 }
 

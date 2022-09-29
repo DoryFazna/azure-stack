@@ -4,4 +4,5 @@ variable "location" {}
 variable "primary_database_version" {}
 variable "primary_database_admin" {}
 variable "primary_database_password" {}
-variable "app_subnet_id" {}
+variable "db_subnet_id" {}
+

@@ -4,3 +4,4 @@ variable "vnetcidr" {}
 variable "websubnetcidr" {}
 variable "appsubnetcidr" {}
 variable "dbsubnetcidr" {}
+variable "primary_database" {}

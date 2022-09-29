@@ -20,7 +20,7 @@ resource "azurerm_private_endpoint" "ap-end" {
   name                = "priv-endpoint"
   location            = var.location
   resource_group_name = var.resource_group
-  subnet_id           = var.app_subnet_id
+  subnet_id           = var.db_subnet_id
 
   private_service_connection {
     name                           = "xprivateserviceconnection"
@@ -29,4 +29,19 @@ resource "azurerm_private_endpoint" "ap-end" {
     is_manual_connection           = false
   }
 }
+#DB Private Endpoint Connecton
+data "azurerm_private_endpoint_connection" "endpoint-connection" {
+  depends_on = [azurerm_private_endpoint.ap-end]
+  name = azurerm_private_endpoint.ap-end.name
+  resource_group_name = var.resource_group
+}
 
+# Create a DB Private DNS A Record
+resource "azurerm_private_dns_a_record" "endpoint-dns-a-record" {
+  depends_on = [azurerm_mssql_server.primary]
+  name = lower(azurerm_mssql_server.primary.name)
+  zone_name = "database.windows.net"
+  resource_group_name = var.resource_group
+  ttl = 300
+  records = [data.azurerm_private_endpoint_connection.endpoint-connection.private_service_connection.0.private_ip_address]
+}
